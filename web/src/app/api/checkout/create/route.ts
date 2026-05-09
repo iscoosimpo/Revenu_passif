@@ -2,6 +2,7 @@ import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
 import {
   createHostedCheckout,
+  getGeniusPayCheckoutOverridesFromEnv,
   getGeniusPayCredentials,
   getPublicAppUrl,
 } from "@/lib/geniuspay";
@@ -135,6 +136,7 @@ export async function POST(req: Request) {
   const appBase = getPublicAppUrl();
 
   try {
+    const gwOverrides = getGeniusPayCheckoutOverridesFromEnv();
     const { checkoutUrl, reference } = await createHostedCheckout({
       amountXof,
       description: describeOrder(lines),
@@ -147,6 +149,9 @@ export async function POST(req: Request) {
         order_id: orderDraftId,
         item_count: String(lines.length),
       },
+      paymentMethod: gwOverrides.paymentMethod,
+      gateway: gwOverrides.gateway,
+      mmoProvider: gwOverrides.mmoProvider,
     });
 
     if (process.env.NODE_ENV !== "production") {

@@ -48,9 +48,36 @@ export type CreateHostedCheckoutInput = {
   successUrl: string;
   errorUrl: string;
   metadata: Record<string, string>;
+  /**
+   * Si tout est omis : checkout GeniusPay (client choisit Wave / OM / carte / …).
+   * Sinon : passage forcé selon la doc GeniusPay (`payment_method`, `gateway`, `mmo_provider`).
+   */
+  paymentMethod?: string | null;
+  gateway?: string | null;
+  mmoProvider?: string | null;
 };
 
-/** Sans `payment_method` → GeniusPay renvoie `checkout_url` (page hébergée). */
+/** Lit les overrides depuis l’ENV (config marchand, pas exposé au navigateur). */
+export function getGeniusPayCheckoutOverridesFromEnv(): {
+  paymentMethod?: string;
+  gateway?: string;
+  mmoProvider?: string;
+} {
+  const pm = process.env.GENIUSPAY_CHECKOUT_PAYMENT_METHOD?.trim();
+  const gw = process.env.GENIUSPAY_CHECKOUT_GATEWAY?.trim();
+  const mmo = process.env.GENIUSPAY_CHECKOUT_MMO_PROVIDER?.trim();
+  const out: { paymentMethod?: string; gateway?: string; mmoProvider?: string } =
+    {};
+  if (pm) out.paymentMethod = pm;
+  if (gw) out.gateway = gw;
+  if (mmo) out.mmoProvider = mmo;
+  return out;
+}
+
+/**
+ * Sans `payment_method` / overrides → `checkout_url` (page hébergée GeniusPay).
+ * Avec `payment_method` ou `gateway` explicite → comportement documenté (souvent redirection directe vers un agrégateur).
+ */
 export async function createHostedCheckout(
   input: CreateHostedCheckoutInput
 ): Promise<{ checkoutUrl: string; reference: string }> {
@@ -69,6 +96,19 @@ export async function createHostedCheckout(
   const name = input.customerName?.trim();
   if (name) customer.name = name;
 
+  const body: Record<string, unknown> = {
+    amount: input.amountXof,
+    currency: "XOF",
+    description: input.description.slice(0, 500),
+    customer,
+    success_url: input.successUrl,
+    error_url: input.errorUrl,
+    metadata: input.metadata,
+  };
+  if (input.paymentMethod) body.payment_method = input.paymentMethod;
+  if (input.gateway) body.gateway = input.gateway;
+  if (input.mmoProvider) body.mmo_provider = input.mmoProvider;
+
   const res = await fetch(`${cred.baseUrl}/payments`, {
     method: "POST",
     headers: {
@@ -76,15 +116,7 @@ export async function createHostedCheckout(
       "X-API-Secret": cred.apiSecret,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      amount: input.amountXof,
-      currency: "XOF",
-      description: input.description.slice(0, 500),
-      customer,
-      success_url: input.successUrl,
-      error_url: input.errorUrl,
-      metadata: input.metadata,
-    }),
+    body: JSON.stringify(body),
   });
 
   let json: GeniusPayPaymentResponse;
