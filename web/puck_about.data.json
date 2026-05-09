@@ -1,0 +1,65 @@
+{
+  "content": [
+    {
+      "type": "Heading",
+      "props": {
+        "id": "heading-1",
+        "title": "À Propos de Magassa Hub",
+        "level": "h1",
+        "align": "center"
+      }
+    },
+    {
+      "type": "Text",
+      "props": {
+        "id": "text-1",
+        "content": "Bienvenue sur Magassa Hub, la plateforme dédiée à l'apprentissage de l'anglais pour la communauté francophone.",
+        "align": "center",
+        "size": "lg"
+      }
+    },
+    {
+      "type": "Text",
+      "props": {
+        "id": "text-2",
+        "content": "Avec plus de 80 000 abonnés sur TikTok, notre mission a toujours été de rendre l'apprentissage de l'anglais simple, accessible, et surtout, ancré dans la vie réelle. Fini les théories complexes qui ne servent à rien en situation de communication !",
+        "align": "left",
+        "size": "base"
+      }
+    },
+    {
+      "type": "Box",
+      "props": {
+        "id": "box-1",
+        "title": "Notre Vision",
+        "content": "Nous croyons que tout le monde peut parler anglais avec confiance, peu importe son niveau de départ. Nos livres et ressources sont conçus spécifiquement pour déconstruire les blocages des francophones et les faire progresser rapidement.",
+        "padding": "24px",
+        "borderRadius": "16px"
+      }
+    },
+    {
+      "type": "Text",
+      "props": {
+        "id": "text-3",
+        "content": "Derrière ces ressources se trouve une équipe passionnée qui analyse les difficultés courantes de l'apprentissage des langues pour créer des solutions adaptées.",
+        "align": "left",
+        "size": "base"
+      }
+    },
+    {
+      "type": "Text",
+      "props": {
+        "id": "text-4",
+        "content": "Si vous avez des questions ou si vous souhaitez collaborer avec nous, n'hésitez pas à nous contacter sur nos réseaux sociaux.",
+        "align": "left",
+        "size": "base"
+      }
+    }
+  ],
+  "root": {
+    "props": {
+      "title": "À Propos"
+    }
+  },
+  "zones": {}
+}

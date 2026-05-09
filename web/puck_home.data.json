@@ -1,0 +1,96 @@
+{
+  "content": [
+    {
+      "type": "Hero",
+      "props": {
+        "id": "Hero-1",
+        "badge": "Rejoint par +80 000 apprenants",
+        "title": "Oubliez les cours d'anglais ennuyeux.",
+        "subtitle": "Des guides simples, pratiques et axés sur la vraie vie.",
+        "buttonLabel": "Voir nos programmes",
+        "buttonUrl": "/produits"
+      }
+    },
+    {
+      "type": "Features",
+      "props": {
+        "id": "Features-1",
+        "title": "Pourquoi notre méthode fonctionne ?",
+        "subtitle": "La méthode scolaire classique ne marche pas pour tout le monde.",
+        "features": [
+          {
+            "title": "Zéro jargon inutile",
+            "description": "Les règles expliquées simplement.",
+            "icon": "1"
+          },
+          {
+            "title": "Prêt à l'emploi",
+            "description": "Des phrases utiles au quotidien.",
+            "icon": "2"
+          },
+          {
+            "title": "Pensé pour vous",
+            "description": "Cible les erreurs des francophones.",
+            "icon": "3"
+          }
+        ]
+      }
+    },
+    {
+      "type": "FeaturedProducts",
+      "props": {
+        "id": "FeaturedProducts-1",
+        "title": "Nos Ressources",
+        "subtitle": "Les outils indispensables pour votre réussite."
+      }
+    },
+    {
+      "type": "Testimonials",
+      "props": {
+        "id": "Testimonials-1",
+        "title": "Ils ont franchi le cap",
+        "subtitle": "Rejoignez des milliers de personnes.",
+        "reviews": [
+          {
+            "author": "Sarah",
+            "role": "26 ans",
+            "content": "Je n'avais jamais osé parler anglais par peur d'être jugée. En 2 semaines avec ce livre, je forme mes phrases plus facilement sans réfléchir pendant 3 heures."
+          },
+          {
+            "author": "Koffi",
+            "role": "32 ans",
+            "content": "Le livre est clair et concret. J'utilise les fiches pratiques chaque jour avec les vidéos TikTok. Meilleur investissement."
+          },
+          {
+            "author": "Mariam",
+            "role": "29 ans",
+            "content": "Enfin une méthode simple pour nous, francophones. Très pratique, ça va droit au but. Parfait pour se préparer à un entretien."
+          }
+        ]
+      }
+    },
+    {
+      "type": "FAQ",
+      "props": {
+        "id": "FAQ-1",
+        "title": "Questions fréquentes",
+        "questions": [
+          {
+            "question": "Le livre est pour quel niveau ?",
+            "answer": "Débutant à intermédiaire."
+          },
+          {
+            "question": "Je reçois le livre comment ?",
+            "answer": "Par email immédiatement après paiement."
+          }
+        ]
+      }
+    }
+  ],
+  "root": {
+    "props": {
+      "title": "Page d'Accueil"
+    }
+  },
+  "zones": {}
+}

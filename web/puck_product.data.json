@@ -1,0 +1,22 @@
+{
+  "content": [
+    {
+      "type": "ProductPageLayout",
+      "props": {
+        "id": "ProductPageLayout-1",
+        "title": "Titre du produit (Modèle)",
+        "description": "Description du produit affichée ici.",
+        "price": "9 900 FCFA",
+        "featuresTitle": "Ce que vous allez apprendre :",
+        "buttonLabel": "Acheter Maintenant",
+        "securityText": "Paiement sécurisé via Mobile Money. Livraison immédiate par email."
+      }
+    }
+  ],
+  "root": {
+    "props": {
+      "title": "Modèle Produit"
+    }
+  },
+  "zones": {}
+}

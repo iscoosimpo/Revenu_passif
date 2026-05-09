@@ -1,0 +1,30 @@
+{
+  "content": [
+    {
+      "type": "Hero",
+      "props": {
+        "id": "ProductsHero-1",
+        "variant": "compact",
+        "badge": "Catalogue",
+        "title": "Tous nos Produits",
+        "subtitle": "Découvrez tous nos livres et ressources pour vous aider à atteindre la fluidité en anglais.",
+        "buttonLabel": "",
+        "buttonUrl": ""
+      }
+    },
+    {
+      "type": "FeaturedProducts",
+      "props": {
+        "id": "ProductList-1",
+        "title": "Nos Ressources",
+        "subtitle": "Sélection de nos meilleurs ouvrages."
+      }
+    }
+  ],
+  "root": {
+    "props": {
+      "title": "Liste des Produits"
+    }
+  },
+  "zones": {}
+}
