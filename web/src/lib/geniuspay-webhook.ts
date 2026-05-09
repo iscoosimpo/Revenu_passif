@@ -23,8 +23,10 @@ export function verifyGeniusPayWebhookSignature(
     .update(data, "utf8")
     .digest("hex");
 
-  const a = Buffer.from(signatureHex.trim(), "utf8");
-  const b = Buffer.from(expected, "utf8");
+  const sig = signatureHex.trim().toLowerCase();
+  const exp = expected.toLowerCase();
+  const a = Buffer.from(sig, "utf8");
+  const b = Buffer.from(exp, "utf8");
   if (a.length !== b.length) return { ok: false, reason: "sig_length" };
   if (!crypto.timingSafeEqual(a, b)) return { ok: false, reason: "sig_mismatch" };
   return { ok: true };

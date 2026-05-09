@@ -18,6 +18,7 @@ export async function POST(req: Request) {
   const signature = req.headers.get("X-Webhook-Signature");
   const timestamp = req.headers.get("X-Webhook-Timestamp");
   const event = req.headers.get("X-Webhook-Event");
+  const deliveryId = req.headers.get("X-Webhook-Delivery");
 
   const check = verifyGeniusPayWebhookSignature(
     rawBody,
@@ -46,12 +47,18 @@ export async function POST(req: Request) {
       : undefined;
 
   if (process.env.NODE_ENV !== "production") {
-    console.log("[genius-pay webhook]", { event, id, parsed: payload });
+    console.log("[genius-pay webhook]", {
+      event,
+      id,
+      deliveryId,
+      parsed: payload,
+    });
   } else {
-    console.log("[genius-pay webhook]", { event, id });
+    console.log("[genius-pay webhook]", { event, id, deliveryId });
   }
 
-  // Idempotency + mise à jour commande Supabase : à brancher avec une table dédiée.
+  // Idempotence : en prod, persister payload.id ou X-Webhook-Delivery (Supabase / KV)
+  // avant tout effet métier pour ne pas traiter deux fois la même livraison.
   switch (event) {
     case "payment.success":
     case "payment.failed":
