@@ -16,9 +16,10 @@ type CheckoutLinePayload = {
 };
 
 type BodyPayload = {
+  firstName?: string;
+  lastName?: string;
   email?: string;
   phone?: string | null;
-  country?: string | null;
   lines?: CheckoutLinePayload[];
   subtotal?: number;
   currency?: string;
@@ -87,6 +88,16 @@ export async function POST(req: Request) {
   }
 
   const email = typeof body.email === "string" ? body.email.trim() : "";
+  const firstName =
+    typeof body.firstName === "string" ? body.firstName.trim() : "";
+  const lastName = typeof body.lastName === "string" ? body.lastName.trim() : "";
+
+  if (!firstName || !lastName) {
+    return NextResponse.json(
+      { ok: false, error: "Veuillez renseigner prénom et nom." },
+      { status: 400 }
+    );
+  }
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json(
       { ok: false, error: "Adresse e-mail invalide." },
@@ -152,11 +163,7 @@ export async function POST(req: Request) {
     typeof body.phone === "string" && body.phone.trim()
       ? body.phone.trim()
       : null;
-  const explicitCountry =
-    typeof body.country === "string" && body.country.trim()
-      ? body.country.trim().toUpperCase()
-      : null;
-  const country = explicitCountry || inferCountryFromPhone(phone);
+  const country = inferCountryFromPhone(phone);
 
   const appBase = getPublicAppUrl();
 
@@ -168,7 +175,7 @@ export async function POST(req: Request) {
       customerEmail: email,
       customerPhone: phone,
       customerCountry: country,
-      customerName: email.includes("@") ? email.split("@")[0] : undefined,
+      customerName: `${firstName} ${lastName}`.trim(),
       successUrl: `${appBase}/paiement/succes`,
       errorUrl: `${appBase}/paiement/echec`,
       metadata: {
