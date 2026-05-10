@@ -44,6 +44,7 @@ export type CreateHostedCheckoutInput = {
   description: string;
   customerEmail: string;
   customerPhone?: string | null;
+  customerCountry?: string | null;
   customerName?: string | null;
   successUrl: string;
   errorUrl: string;
@@ -93,6 +94,8 @@ export async function createHostedCheckout(
   };
   const phone = input.customerPhone?.trim();
   if (phone) customer.phone = phone;
+  const country = input.customerCountry?.trim().toUpperCase();
+  if (country) customer.country = country;
   const name = input.customerName?.trim();
   if (name) customer.name = name;
 

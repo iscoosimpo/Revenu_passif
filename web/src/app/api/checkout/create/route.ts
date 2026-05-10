@@ -18,6 +18,7 @@ type CheckoutLinePayload = {
 type BodyPayload = {
   email?: string;
   phone?: string | null;
+  country?: string | null;
   lines?: CheckoutLinePayload[];
   subtotal?: number;
   currency?: string;
@@ -41,6 +42,25 @@ function describeOrder(lines: CheckoutLinePayload[]): string {
       (lines[0] ? ` — ${lines[0].title}` : "");
   }
   return `Magassa Hub — ${base}`.slice(0, 500);
+}
+
+function inferCountryFromPhone(phone: string | null): string | null {
+  if (!phone) return null;
+  const normalized = phone.replace(/\s+/g, "");
+  const map: Array<[prefix: string, iso2: string]> = [
+    ["+223", "ML"], // Mali
+    ["+225", "CI"], // Cote d'Ivoire
+    ["+221", "SN"], // Senegal
+    ["+237", "CM"], // Cameroun
+    ["+243", "CD"], // RDC
+    ["+229", "BJ"], // Benin
+    ["+226", "BF"], // Burkina Faso
+    ["+228", "TG"], // Togo
+    ["+242", "CG"], // Congo
+    ["+241", "GA"], // Gabon
+  ];
+  const hit = map.find(([prefix]) => normalized.startsWith(prefix));
+  return hit ? hit[1] : null;
 }
 
 export async function POST(req: Request) {
@@ -132,6 +152,11 @@ export async function POST(req: Request) {
     typeof body.phone === "string" && body.phone.trim()
       ? body.phone.trim()
       : null;
+  const explicitCountry =
+    typeof body.country === "string" && body.country.trim()
+      ? body.country.trim().toUpperCase()
+      : null;
+  const country = explicitCountry || inferCountryFromPhone(phone);
 
   const appBase = getPublicAppUrl();
 
@@ -142,6 +167,7 @@ export async function POST(req: Request) {
       description: describeOrder(lines),
       customerEmail: email,
       customerPhone: phone,
+      customerCountry: country,
       customerName: email.includes("@") ? email.split("@")[0] : undefined,
       successUrl: `${appBase}/paiement/succes`,
       errorUrl: `${appBase}/paiement/echec`,

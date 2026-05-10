@@ -24,6 +24,7 @@ export default function CheckoutContent() {
 
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [country, setCountry] = useState("");
   const [payStatus, setPayStatus] = useState<
     "idle" | "submitting" | "error"
   >("idle");
@@ -97,6 +98,7 @@ export default function CheckoutContent() {
         body: JSON.stringify({
           email: email.trim(),
           phone: phone.trim() || null,
+          country: country.trim() || null,
           lines: lines.map((l) => ({
             productId: l.productId,
             slug: l.slug,
@@ -135,7 +137,7 @@ export default function CheckoutContent() {
       setPayStatus("error");
       setPayMessage("Impossible de contacter le serveur.");
     }
-  }, [email, phone, lines, subtotal]);
+  }, [email, phone, country, lines, subtotal]);
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4 sm:px-8 py-12 md:py-16">
@@ -278,6 +280,26 @@ export default function CheckoutContent() {
                 className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-3 text-white text-sm focus:outline-none focus:border-[var(--primary)]"
                 placeholder="+237 …"
               />
+            </label>
+            <label className="block text-xs font-bold text-[var(--muted)]">
+              Pays (optionnel, améliore le routing)
+              <select
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                className="mt-1.5 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-3 text-white text-sm focus:outline-none focus:border-[var(--primary)]"
+              >
+                <option value="">Détection automatique via téléphone</option>
+                <option value="ML">Mali (ML)</option>
+                <option value="CI">Côte d&apos;Ivoire (CI)</option>
+                <option value="SN">Sénégal (SN)</option>
+                <option value="CM">Cameroun (CM)</option>
+                <option value="BF">Burkina Faso (BF)</option>
+                <option value="BJ">Bénin (BJ)</option>
+                <option value="TG">Togo (TG)</option>
+                <option value="CD">RDC (CD)</option>
+                <option value="CG">Congo (CG)</option>
+                <option value="GA">Gabon (GA)</option>
+              </select>
             </label>
           </div>
 
